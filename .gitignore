@@ -1,0 +1,17 @@
+build/
+install/
+log/
+
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+*.bag
+rosbag2_*/
+*.mp4
+*.mkv
+
+.vscode/
+.idea/
+*.swp

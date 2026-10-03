@@ -1,0 +1,16 @@
+# GPS waypoints for the route A -> B.
+# Datum (world origin / start zone A): lat 55.7558, lon 37.6173
+# Approximate mapping to world coordinates (ENU, +x East, +y North):
+#   wp1 ~ (3.0,  1.5)  - skirt around obstacle_1 / obstacle_2
+#   wp2 ~ (6.0, -1.0)  - pass between obstacle_3 and obstacle_4
+#   wp3 ~ (8.0,  0.0)  - finish zone B
+waypoints:
+  - latitude: 55.7558135
+    longitude: 37.6173479
+    yaw: 0.0
+  - latitude: 55.7557910
+    longitude: 37.6173958
+    yaw: 0.0
+  - latitude: 55.7558000
+    longitude: 37.6174278
+    yaw: 0.0

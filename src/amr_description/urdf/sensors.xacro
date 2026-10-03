@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Small helper inertia for lightweight sensor links -->
+  <xacro:macro name="small_inertia" params="m">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="${m}"/>
+      <inertia ixx="1e-4" ixy="0" ixz="0" iyy="1e-4" iyz="0" izz="1e-4"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- ============================ 2D Lidar ============================= -->
+  <link name="lidar_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.04" length="0.04"/></geometry>
+      <material name="dark"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.04" length="0.04"/></geometry>
+    </collision>
+    <xacro:small_inertia m="0.1"/>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="lidar_link"/>
+    <origin xyz="0.0 0.0 ${base_height + 0.04}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ===================== Depth camera (Orbbec Astra) ================= -->
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.03 0.12 0.03"/></geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.03 0.12 0.03"/></geometry>
+    </collision>
+    <xacro:small_inertia m="0.1"/>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="camera_link"/>
+    <origin xyz="${base_length/2} 0.0 ${base_height*0.6}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Optical frame (REP-103): z forward, x right, y down -->
+  <link name="camera_depth_optical_frame"/>
+  <joint name="camera_depth_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child  link="camera_depth_optical_frame"/>
+    <origin xyz="0 0 0" rpy="${-PI/2} 0 ${-PI/2}"/>
+  </joint>
+
+  <!-- ============================ IMU ================================== -->
+  <link name="imu_link">
+    <xacro:small_inertia m="0.02"/>
+  </link>
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="imu_link"/>
+    <origin xyz="0 0 ${base_height*0.4}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ============================ GPS ================================== -->
+  <link name="gps_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.02" length="0.03"/></geometry>
+      <material name="green"/>
+    </visual>
+    <xacro:small_inertia m="0.02"/>
+  </link>
+  <joint name="gps_joint" type="fixed">
+    <parent link="base_link"/>
+    <child  link="gps_link"/>
+    <origin xyz="${-base_length/2 + 0.05} 0 ${base_height + 0.02}" rpy="0 0 0"/>
+  </joint>
+
+</robot>
